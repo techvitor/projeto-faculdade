@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/pessoas")
@@ -22,6 +23,17 @@ public class PessoalController {
     @PostMapping
     public PessoaModel criarPessoa(@RequestBody PessoaModel pessoaModel){
         return  pessoaService.criarPessoa(pessoaModel);
+    }
+
+    @GetMapping("/newGet/{id}")
+    public Optional<PessoaModel> findById(@PathVariable Long id){
+        return pessoaService.findById(id);
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteById(@PathVariable Long id){
+        pessoaService.deleteById(id);
     }
 
 }
