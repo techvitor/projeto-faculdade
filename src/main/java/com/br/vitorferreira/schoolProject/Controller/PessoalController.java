@@ -3,6 +3,7 @@ package com.br.vitorferreira.schoolProject.Controller;
 import com.br.vitorferreira.schoolProject.Model.PessoaModel;
 import com.br.vitorferreira.schoolProject.Service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +27,8 @@ public class PessoalController {
     }
 
     @GetMapping("/newGet/{id}")
-    public Optional<PessoaModel> findById(@PathVariable Long id){
-        return pessoaService.findById(id);
+    public Optional<PessoaModel> procurarPorId(@PathVariable Long id){
+        return pessoaService.procurarPorId(id);
     }
 
 
@@ -35,5 +36,16 @@ public class PessoalController {
     public void deleteById(@PathVariable Long id){
         pessoaService.deleteById(id);
     }
+
+    @PutMapping("/put/{id}")
+    public ResponseEntity alterarPessoa(@RequestBody PessoaModel pessoaModel, @PathVariable Long id){
+        return pessoaService.alterarPessoa(pessoaModel, id).map(pessoaExistente -> {
+            pessoaModel.setId(id);
+            PessoaModel atualizado = pessoaService.criarPessoa(pessoaExistente);
+
+            return ResponseEntity.ok(atualizado);
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
 
 }

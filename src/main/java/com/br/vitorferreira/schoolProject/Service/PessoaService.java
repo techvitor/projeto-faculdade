@@ -23,12 +23,20 @@ public class PessoaService {
         return pessoaRepository.save(pessoaModel);
     }
 
-    public Optional<PessoaModel> findById(Long id){
+    public Optional<PessoaModel> procurarPorId(Long id){
         return pessoaRepository.findById(id);
     }
 
     public void deleteById(long id){
         pessoaRepository.deleteById(id);
+    }
+
+    public Optional<PessoaModel> alterarPessoa(PessoaModel novosDados, Long id){
+        return pessoaRepository.findById(id).map(pessoaExistente -> {
+            pessoaExistente.setNome(novosDados.getNome());
+
+            return  pessoaRepository.save(pessoaExistente);
+        });
     }
 
 }
