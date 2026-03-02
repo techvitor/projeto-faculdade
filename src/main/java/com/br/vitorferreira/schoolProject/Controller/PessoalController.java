@@ -27,7 +27,7 @@ public class PessoalController {
     }
 
     @GetMapping("/newGet/{id}")
-    public Optional<PessoaModel> procurarPorId(@PathVariable Long id){
+    public Optional<PessoaModel> procurar(@PathVariable Long id){
         return pessoaService.procurarPorId(id);
     }
 
